@@ -4,7 +4,7 @@ namespace REST;
 
 use Nette;
 
-class ApiRouter implements \Nette\Routing\Router
+class Router implements \Nette\Routing\Router
 {
 	private const ACTIONS = [
 		'GET' => 'read',
