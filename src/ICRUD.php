@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace REST;
 
-use REST\Responses\DataListResponse;
+use REST\Responses\ListResponse;
 use REST\Responses\OkResponse;
 
 interface ICRUD
 {
-	public function read(): DataListResponse;
+	public function read(): ListResponse;
 	
 	public function delete(): OkResponse;
 	

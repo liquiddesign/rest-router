@@ -6,7 +6,7 @@ namespace REST\Responses;
 
 use Grid\Datalist;
 
-class DataListResponse extends JsonResponse
+class ListResponse extends JsonResponse
 {
 	public function __construct(Datalist $datalist)
 	{
