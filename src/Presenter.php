@@ -16,6 +16,8 @@ abstract class Presenter extends Component implements IPresenter
 	
 	public function run(\Nette\Application\Request $request): Response
 	{
+		$this->loadState($request->getParameters());
+		
 		return $this->call($request->getParameter('action') ?? 'default', $request->getParameters());
 	}
 	
