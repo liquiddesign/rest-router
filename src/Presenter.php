@@ -6,7 +6,6 @@ namespace REST;
 
 use Nette\Application\IPresenter;
 use Nette\Application\Response;
-use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Component;
 
 abstract class Presenter extends Component implements IPresenter

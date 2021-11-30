@@ -42,6 +42,7 @@ class Router implements \Nette\Routing\Router
 	/**
 	 * @param \Nette\Http\IRequest $httpRequest
 	 * @return mixed[]|null
+	 * @throws \Nette\Utils\JsonException
 	 */
 	public function match(Nette\Http\IRequest $httpRequest): ?array
 	{
@@ -59,17 +60,14 @@ class Router implements \Nette\Routing\Router
 			if (!$matched) {
 				continue;
 			}
-
-			$jsonBody = \json_decode($httpRequest->getRawBody(), true);
 			
-			if (\json_last_error() === \JSON_ERROR_NONE) {
+			if ($httpRequest->getRawBody()) {
+				$jsonBody = Nette\Utils\Json::decode($httpRequest->getRawBody());
 				$matched[self::BODY_KEY] = $jsonBody;
-			} elseif ($httpRequest->getRawBody()) {
-				throw new Nette\Application\BadRequestException('JSON error: #'. \json_last_error());
 			}
 			
-			if ($httpRequest->getMethod() === 'POST' && isset($jsonBody[self::OPERATION_KEY])) {
-				$matched += $jsonBody;
+			if ($httpRequest->getMethod() === 'POST' && isset($jsonBody->{self::OPERATION_KEY})) {
+				$matched += (array) $jsonBody;
 				$matched[self::ACTION_KEY] = Nette\Utils\Arrays::pick($matched, self::OPERATION_KEY);
 				unset($matched[self::BODY_KEY]);
 			}
