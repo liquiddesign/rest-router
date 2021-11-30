@@ -17,6 +17,8 @@ class Router implements \Nette\Routing\Router
 	
 	private const ACTION_KEY = 'action';
 	
+	private const SUBACTION_KEY = 'subAction';
+	
 	private const OPERATION_KEY = 'op';
 	
 	private const BODY_KEY = 'body';
@@ -73,7 +75,7 @@ class Router implements \Nette\Routing\Router
 			}
 			
 			if (!isset($matched[self::ACTION_KEY])) {
-				$matched[self::ACTION_KEY] = $this->mapAction($httpRequest->getMethod());
+				$matched[self::ACTION_KEY] = $this->mapAction($httpRequest->getMethod()) . (isset($matched[self::SUBACTION_KEY]) && $matched['subAction'] ? \ucfirst($matched['subAction']) : '');
 			}
 			
 			return $matched;

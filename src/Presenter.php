@@ -24,9 +24,8 @@ abstract class Presenter extends Component implements IPresenter
 	/**
 	 * @param string $method
 	 * @param mixed[] $params
-	 * @return mixed[]
 	 */
-	protected function call(string $method, array $params): array
+	protected function call(string $method, array $params): \REST\Responses\JsonResponse
 	{
 		$rc = $this->getReflection();
 		
