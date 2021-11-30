@@ -6,7 +6,7 @@ namespace REST\Responses;
 
 class ErrorResponse extends JsonResponse
 {
-	public function __construct(\Exception $exception)
+	public function __construct(\Throwable $exception)
 	{
 		$payload = [
 			'error' => $exception->getMessage(),
