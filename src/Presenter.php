@@ -7,11 +7,17 @@ namespace REST;
 use Nette\Application\IPresenter;
 use Nette\Application\Response;
 use Nette\Application\UI\Component;
+use REST\Responses\OkResponse;
 
 abstract class Presenter extends Component implements IPresenter
 {
 	/** @inject */
 	public \Nette\Http\Request $httpRequest;
+	
+	public function check(): OkResponse
+	{
+		return new OkResponse([]);
+	}
 	
 	public function run(\Nette\Application\Request $request): Response
 	{

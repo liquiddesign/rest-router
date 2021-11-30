@@ -15,6 +15,8 @@ class Router implements \Nette\Routing\Router
 	
 	private const DEFAULT_ACTION = 'default';
 	
+	private const OPTIONS_ACTION = 'checkRequest';
+	
 	private const ACTION_KEY = 'action';
 	
 	private const SUBACTION_KEY = 'subAction';
@@ -74,6 +76,10 @@ class Router implements \Nette\Routing\Router
 			
 			if (!isset($matched[self::ACTION_KEY])) {
 				$matched[self::ACTION_KEY] = $this->mapAction($httpRequest->getMethod()) . (isset($matched[self::SUBACTION_KEY]) && $matched['subAction'] ? \ucfirst($matched['subAction']) : '');
+			}
+			
+			if ($httpRequest->getMethod() === 'OPTIONS') {
+				$matched[self::ACTION_KEY] = self::OPTIONS_ACTION;
 			}
 			
 			return $matched;
