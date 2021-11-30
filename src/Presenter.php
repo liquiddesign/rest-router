@@ -14,7 +14,7 @@ abstract class Presenter extends Component implements IPresenter
 	/** @inject */
 	public \Nette\Http\Request $httpRequest;
 	
-	public function check(): OkResponse
+	public function checkRequest(): OkResponse
 	{
 		return new OkResponse([]);
 	}
