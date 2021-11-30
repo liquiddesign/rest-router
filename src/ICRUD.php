@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace REST;
 
 use REST\Responses\DataListResponse;
-use REST\Responses\SuccessResponse;
+use REST\Responses\OkResponse;
 
 interface ICRUD
 {
 	public function read(): DataListResponse;
 	
-	public function delete(): SuccessResponse;
+	public function delete(): OkResponse;
 	
-	public function create(): SuccessResponse;
+	public function create(): OkResponse;
 	
-	public function update(): SuccessResponse;
+	public function update(): OkResponse;
 }

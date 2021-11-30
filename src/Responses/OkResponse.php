@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace REST\Responses;
 
-class SuccessResponse extends JsonResponse
+class OkResponse extends JsonResponse
 {
 	/**
 	 * @param mixed $result
