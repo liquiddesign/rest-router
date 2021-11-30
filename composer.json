@@ -20,6 +20,7 @@
 		"composer/composer": "*",
 		"liquiddesign/codestyle": "@dev",
 		"liquiddesign/migrator": "@dev",
+		"liquiddesign/grid": "@dev",
 		"phpstan/phpstan": "*",
 		"tracy/tracy":"*"
 	},
