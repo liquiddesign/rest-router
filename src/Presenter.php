@@ -16,7 +16,7 @@ abstract class Presenter extends Component implements IPresenter
 	
 	public function checkRequest(): OkResponse
 	{
-		return new OkResponse([]);
+		return new OkResponse(true);
 	}
 	
 	public function run(\Nette\Application\Request $request): Response
