@@ -76,6 +76,8 @@ class Router implements \Nette\Routing\Router
 			
 			if (!isset($matched[self::ACTION_KEY])) {
 				$matched[self::ACTION_KEY] = $this->mapAction($httpRequest->getMethod()) . (isset($matched[self::SUBACTION_KEY]) && $matched['subAction'] ? \ucfirst($matched['subAction']) : '');
+			} else {
+				$matched[self::ACTION_KEY] = $this->mapAction($httpRequest->getMethod()) . \ucfirst($matched[self::ACTION_KEY]);
 			}
 			
 			if ($httpRequest->getMethod() === 'OPTIONS') {

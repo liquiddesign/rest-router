@@ -9,11 +9,11 @@ use REST\Responses\OkResponse;
 
 interface ICRUD
 {
-	public function read(): ListResponse;
+	public function actionRead(): ListResponse;
 	
-	public function delete(): OkResponse;
+	public function actionDelete(): OkResponse;
 	
-	public function create(): OkResponse;
+	public function actionCreate(): OkResponse;
 	
-	public function update(): OkResponse;
+	public function actionUpdate(): OkResponse;
 }
