@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace REST;
 
+use Grid\Datalist;
 use Nette\Application\IPresenter;
 use Nette\Application\Response;
 use Nette\Application\UI\Component;
+use Nette\ComponentModel\IComponent;
 use Nette\Schema\Elements\Structure;
 use Nette\Schema\Processor;
 use Nette\Security\AuthenticationException;
@@ -85,6 +87,16 @@ abstract class Presenter extends Component implements IPresenter
 			return $rm->invokeArgs($this, $args);
 		} catch (\ReflectionException $e) {
 			throw new \Nette\Application\BadRequestException($e->getMessage());
+		}
+	}
+	
+	protected function validateChildComponent(IComponent $child): void
+	{
+		if ($child instanceof Datalist) {
+			$child->monitor(Presenter::class, function (Presenter $presenter) use ($child): void {
+				$child->loadState($this->getParameters());
+				\Nette\Utils\Arrays::invoke($child->onAnchor, $this);
+			});
 		}
 	}
 	
