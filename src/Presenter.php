@@ -41,14 +41,17 @@ abstract class Presenter extends Component implements IPresenter
 		$rc = $this->getReflection();
 		$method = \ucfirst($method);
 		
+		$globalAuthorizeMethod = "authorize";
 		$authorizeMethod = "authorize$method";
 		$validateMethod = "validate$method";
 		$actionMethod = "action$method";
 		
-		// call authorize method
-		if ($rm = $this->isMethodCallable($rc, $authorizeMethod, 'bool')) {
-			if ($rm->invokeArgs($this, [$this->httpRequest])) {
-				throw new AuthenticationException();
+		// call authorizes method
+		foreach ([$globalAuthorizeMethod, $authorizeMethod] as $method) {
+			if ($rm = $this->isMethodCallable($rc, $method, 'bool')) {
+				if (!$rm->invokeArgs($this, [$this->httpRequest])) {
+					throw new AuthenticationException();
+				}
 			}
 		}
 		
@@ -63,6 +66,7 @@ abstract class Presenter extends Component implements IPresenter
 		
 		$rm = $this->isMethodCallable($rc, $actionMethod, JsonResponse::class, true);
 		
+		// call action method
 		try {
 			$args = $rc->combineArgs($rm, $params);
 		} catch (\Nette\InvalidArgumentException $e) {
@@ -83,7 +87,7 @@ abstract class Presenter extends Component implements IPresenter
 				return null;
 			}
 			
-			throw new \Nette\InvalidStateException('Method not exists ' . $method . '()');
+			throw new \Nette\Application\BadRequestException('Method not exists ' . $method . '()');
 		}
 		
 		$rm = $rc->getMethod($method);
@@ -92,7 +96,10 @@ abstract class Presenter extends Component implements IPresenter
 			throw new \Nette\InvalidStateException('Cannot call method ' . $method . '()');
 		}
 		
-		if ($rm->getReturnType() !== null && $rm->getReturnType()->getName() !== $type) {
+		/** @var \ReflectionNamedType|null $returnType */
+		$returnType = $rm->getReturnType();
+		
+		if ($returnType !== null && ($returnType->getName() !== $type && !\is_subclass_of($returnType->getName(), $type))) {
 			throw new \Nette\InvalidStateException('Method ' . $method . '() has invalid type. Correct type is ' . $type);
 		}
 		

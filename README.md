@@ -5,5 +5,3 @@ Nette router a presenter pro REST API
 ![Release](https://img.shields.io/github/v/release/liquiddesign/rest-router.svg?1)
 
 ## Dokumentace
-
-## TODO

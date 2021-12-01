@@ -89,7 +89,7 @@ class Router implements \Nette\Routing\Router
 		
 		return null;
 	}
-
+	
 	public function constructUrl(array $params, Nette\Http\UrlScript $refUrl): ?string
 	{
 		unset($params, $refUrl);

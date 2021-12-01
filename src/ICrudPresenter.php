@@ -7,7 +7,7 @@ namespace REST;
 use REST\Responses\ListResponse;
 use REST\Responses\OkResponse;
 
-interface ICRUD
+interface ICrudPresenter
 {
 	public function actionRead(): ListResponse;
 	
