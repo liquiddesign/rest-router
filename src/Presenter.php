@@ -70,6 +70,8 @@ abstract class Presenter extends Component implements IPresenter
 			$structure = $rm->invokeArgs($this, [$this->httpRequest]);
 			$processor = new Processor();
 			
+			// $rm->getParameters()['body']->getType(); is subclass of InputBody -> validate + advanced
+			
 			$processor->process($structure, $params['body']);
 		}
 		
