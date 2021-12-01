@@ -34,6 +34,11 @@ class Router implements \Nette\Routing\Router
 	
 	private string $module;
 	
+	/**
+	 * @param string[] $noRestfullPresenter
+	 * @param string $module
+	 * @param int $currentVersion
+	 */
 	public function __construct(array $noRestfullPresenter = [], string $module = 'Api', int $currentVersion = 1)
 	{
 		$this->noRestfullPresenter = $noRestfullPresenter;
@@ -90,6 +95,10 @@ class Router implements \Nette\Routing\Router
 		return null;
 	}
 	
+	/**
+	 * @param mixed[] $params
+	 * @param \Nette\Http\UrlScript $refUrl
+	 */
 	public function constructUrl(array $params, Nette\Http\UrlScript $refUrl): ?string
 	{
 		unset($params, $refUrl);

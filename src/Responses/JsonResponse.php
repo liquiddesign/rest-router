@@ -11,6 +11,9 @@ abstract class JsonResponse implements \Nette\Application\Response
 	/** @var mixed */
 	protected $payload;
 	
+	/**
+	 * @param mixed $payload
+	 */
 	public function __construct($payload)
 	{
 		$this->payload = $payload;

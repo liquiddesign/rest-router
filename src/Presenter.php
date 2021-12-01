@@ -64,6 +64,7 @@ abstract class Presenter extends Component implements IPresenter
 			$processor->process($structure, $params['body']);
 		}
 		
+		/** @var \Nette\Application\UI\MethodReflection $rm */
 		$rm = $this->isMethodCallable($rc, $actionMethod, JsonResponse::class, true);
 		
 		// call action method
