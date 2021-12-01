@@ -9,11 +9,11 @@ use REST\Responses\OkResponse;
 
 interface ICrudPresenter
 {
-	public function actionRead(): ListResponse;
+	public function actionRead(array $id): ListResponse;
 	
-	public function actionDelete(): OkResponse;
+	public function actionDelete(array $id): OkResponse;
 	
-	public function actionCreate(): OkResponse;
+	public function actionCreate(InputBody $body): OkResponse;
 	
-	public function actionUpdate(): OkResponse;
+	public function actionUpdate(array $id, InputBody $body): OkResponse;
 }

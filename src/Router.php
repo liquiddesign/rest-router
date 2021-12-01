@@ -25,6 +25,8 @@ class Router implements \Nette\Routing\Router
 	
 	private const BODY_KEY = 'body';
 	
+	private const ID_KEY = 'id';
+	
 	/**
 	 * @var string[]
 	 */
@@ -87,6 +89,10 @@ class Router implements \Nette\Routing\Router
 			
 			if ($httpRequest->getMethod() === 'OPTIONS') {
 				$matched[self::ACTION_KEY] = self::OPTIONS_ACTION;
+			}
+			
+			if (isset($matched[self::ID_KEY]) && \is_string($matched[self::ID_KEY])) {
+				$matched[self::ID_KEY] = [$matched[self::ID_KEY]];
 			}
 			
 			return $matched;
