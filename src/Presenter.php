@@ -18,11 +18,18 @@ abstract class Presenter extends Component implements IPresenter
 	/** @inject */
 	public \Nette\Http\Request $httpRequest;
 	
+	/**
+	 * Called on default by OPTIONS HTTP method
+	 */
 	public function checkRequest(): OkResponse
 	{
 		return new OkResponse(true);
 	}
 	
+	/**
+	 * @throws \ReflectionException
+	 * @throws \Nette\Security\AuthenticationException
+	 */
 	public function run(\Nette\Application\Request $request): Response
 	{
 		$this->loadState($request->getParameters());
@@ -50,7 +57,7 @@ abstract class Presenter extends Component implements IPresenter
 		foreach ([$globalAuthorizeMethod, $authorizeMethod] as $method) {
 			if ($rm = $this->isMethodCallable($rc, $method, 'bool')) {
 				if (!$rm->invokeArgs($this, [$this->httpRequest])) {
-					throw new AuthenticationException();
+					throw new AuthenticationException('Permission denied');
 				}
 			}
 		}
