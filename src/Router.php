@@ -6,6 +6,8 @@ use Nette;
 
 class Router implements \Nette\Routing\Router
 {
+	public const BODY_KEY = 'body';
+	
 	private const ACTIONS = [
 		'GET' => 'read',
 		'POST' => 'create',
@@ -23,9 +25,9 @@ class Router implements \Nette\Routing\Router
 	
 	private const OPERATION_KEY = 'op';
 	
-	private const BODY_KEY = 'body';
-	
 	private const ID_KEY = 'id';
+	
+	private const IDS_KEY = 'ids';
 	
 	/**
 	 * @var string[]
@@ -72,7 +74,7 @@ class Router implements \Nette\Routing\Router
 			
 			if ($httpRequest->getRawBody()) {
 				$jsonBody = Nette\Utils\Json::decode($httpRequest->getRawBody());
-				$matched[self::BODY_KEY] = $jsonBody;
+				$matched[self::BODY_KEY] = new InputBody($jsonBody);
 			}
 			
 			if ($httpRequest->getMethod() === 'POST' && isset($jsonBody->{self::OPERATION_KEY})) {
@@ -92,7 +94,7 @@ class Router implements \Nette\Routing\Router
 			}
 			
 			if (isset($matched[self::ID_KEY]) && \is_string($matched[self::ID_KEY])) {
-				$matched[self::ID_KEY] = [$matched[self::ID_KEY]];
+				$matched[self::IDS_KEY] = [$matched[self::ID_KEY]];
 			}
 			
 			return $matched;

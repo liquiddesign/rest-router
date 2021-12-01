@@ -10,6 +10,7 @@ use Nette\Application\Response;
 use Nette\Application\UI\Component;
 use Nette\ComponentModel\IComponent;
 use Nette\Schema\Elements\Structure;
+use Nette\Schema\Expect;
 use Nette\Schema\Processor;
 use Nette\Security\AuthenticationException;
 use REST\Responses\JsonResponse;
@@ -48,6 +49,7 @@ abstract class Presenter extends Component implements IPresenter
 	protected function call(string $method, array $params): \REST\Responses\JsonResponse
 	{
 		$rc = $this->getReflection();
+		$processor = new Processor();
 		$method = \ucfirst($method);
 		
 		$globalAuthorizeMethod = "authorize";
@@ -65,19 +67,37 @@ abstract class Presenter extends Component implements IPresenter
 		}
 		
 		// call validate method
-		if (($rm = $this->isMethodCallable($rc, $validateMethod, Structure::class)) && isset($params['body'])) {
+		if (($rm = $this->isMethodCallable($rc, $validateMethod, Structure::class)) && isset($params[Router::BODY_KEY])) {
 			/** @var \Nette\Schema\Elements\Structure $structure */
 			$structure = $rm->invokeArgs($this, [$this->httpRequest]);
-			$processor = new Processor();
-			
-			// $rm->getParameters()['body']->getType(); is subclass of InputBody -> validate + advanced
-			
-			$processor->process($structure, $params['body']);
+			$processor->process($structure, $params[Router::BODY_KEY]);
 		}
 		
 		/** @var \Nette\Application\UI\MethodReflection $rm */
 		$rm = $this->isMethodCallable($rc, $actionMethod, JsonResponse::class, true);
 		
+		// validate by body parameter
+		if (isset($params[Router::BODY_KEY])) {
+			try {
+				$rp = new \ReflectionParameter([$this, $actionMethod], Router::BODY_KEY);
+				/** @var \ReflectionNamedType|null $type */
+				$type = $rp->getType();
+				
+				if (!$type) {
+					throw new \Nette\Application\BadRequestException("Body parameter of $actionMethod() has no type");
+				}
+				
+				$class = $type->getName();
+				
+				if ($class !== InputBody::class && \is_subclass_of($class, InputBody::class)) {
+					$validator = new $class();
+					$params[Router::BODY_KEY] = $processor->process(Expect::from($validator, $validator->getAdditionalValidation()), $params[Router::BODY_KEY]);
+				}
+			} catch (\ReflectionException $x) {
+				throw new \Nette\Application\BadRequestException("Body is not required for method $actionMethod()");
+			}
+		}
+
 		// call action method
 		try {
 			$args = $rc->combineArgs($rm, $params);

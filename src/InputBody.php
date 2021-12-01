@@ -6,10 +6,22 @@ namespace REST;
 
 class InputBody extends \stdClass
 {
-	public function __construct(\stdClass $payload)
+	public function __construct(?\stdClass $payload = null)
 	{
+		if ($payload === null) {
+			return;
+		}
+		
 		foreach ((array) $payload as $property => $value) {
 			$this->$property = $value;
 		}
+	}
+	
+	/**
+	 * @return mixed[]
+	 */
+	public function getAdditionalValidation(): array
+	{
+		return [];
 	}
 }
