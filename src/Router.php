@@ -11,7 +11,7 @@ class Router implements \Nette\Routing\Router
 	private const ACTIONS = [
 		'GET' => 'read',
 		'POST' => 'create',
-		'PUT' => 'update',
+		'PATCH' => 'update',
 		'DELETE' => 'delete',
 	];
 	
