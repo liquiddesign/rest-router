@@ -30,7 +30,7 @@ abstract class Presenter extends Component implements IPresenter
 	public function actionFallback(): OkResponse
 	{
 		if ($this->httpRequest->getMethod() === 'OPTIONS') {
-			return new OkResponse('');
+			return new OkResponse('Polo');
 		}
 		
 		throw new NotImplementedException('Method ' . $this->httpRequest->getMethod() . ' is not implemented.');
