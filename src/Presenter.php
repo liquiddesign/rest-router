@@ -67,7 +67,7 @@ abstract class Presenter extends Component implements IPresenter
 		// call authorizes method
 		foreach ([$globalAuthorizeMethod, $authorizeMethod] as $method) {
 			if ($rm = $this->isMethodCallable($rc, $method, 'bool')) {
-				if (!$rm->invokeArgs($this, [$this->httpRequest])) {
+				if (!$rm->invokeArgs($this, [])) {
 					throw new AuthenticationException('Permission denied');
 				}
 			}
@@ -76,7 +76,7 @@ abstract class Presenter extends Component implements IPresenter
 		// call validate method
 		if (($rm = $this->isMethodCallable($rc, $validateMethod, Structure::class)) && isset($params[Router::BODY_KEY])) {
 			/** @var \Nette\Schema\Elements\Structure $structure */
-			$structure = $rm->invokeArgs($this, [$this->httpRequest]);
+			$structure = $rm->invokeArgs($this, []);
 			$processor->process($structure, $params[Router::BODY_KEY]);
 		}
 		
