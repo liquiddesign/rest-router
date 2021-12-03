@@ -125,12 +125,14 @@ abstract class Presenter extends Component implements IPresenter
 			return;
 		}
 		
-		if ($child instanceof Datalist) {
-			$child->monitor(Presenter::class, function (Presenter $presenter) use ($child): void {
-				$child->loadState($this->getParameters());
-				\Nette\Utils\Arrays::invoke($child->onAnchor, $this);
-			});
+		if (!($child instanceof Datalist)) {
+			return;
 		}
+
+		$child->monitor(Presenter::class, function (Presenter $presenter) use ($child): void {
+			$child->loadState($this->getParameters());
+			\Nette\Utils\Arrays::invoke($child->onAnchor, $this);
+		});
 	}
 	
 	private function isMethodCallable(\ReflectionClass $rc, string $method, string $type, bool $throw = false): ?\ReflectionMethod
