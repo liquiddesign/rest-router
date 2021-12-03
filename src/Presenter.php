@@ -9,6 +9,7 @@ use Nette\Application\IPresenter;
 use Nette\Application\Response;
 use Nette\Application\UI\Component;
 use Nette\ComponentModel\IComponent;
+use Nette\NotImplementedException;
 use Nette\Schema\Elements\Structure;
 use Nette\Schema\Expect;
 use Nette\Schema\Processor;
@@ -21,12 +22,18 @@ abstract class Presenter extends Component implements IPresenter
 	/** @inject */
 	public \Nette\Http\Request $httpRequest;
 	
+	protected bool $directLoadState = true;
+	
 	/**
-	 * Called on default by OPTIONS HTTP method
+	 * Called on default
 	 */
-	public function checkRequest(): OkResponse
+	public function actionDefault(): OkResponse
 	{
-		return new OkResponse(true);
+		if ($this->httpRequest->getMethod() === 'OPTIONS') {
+			return new OkResponse('');
+		}
+		
+		throw new NotImplementedException('Method ' . $this->httpRequest->getMethod() . ' is not implemented.');
 	}
 	
 	/**
@@ -46,7 +53,7 @@ abstract class Presenter extends Component implements IPresenter
 	 * @throws \ReflectionException
 	 * @throws \Nette\Security\AuthenticationException
 	 */
-	protected function call(string $method, array $params): \REST\Responses\JsonResponse
+	protected function call(string $method, array $params): Response
 	{
 		$rc = $this->getReflection();
 		$processor = new Processor();
@@ -114,6 +121,10 @@ abstract class Presenter extends Component implements IPresenter
 	
 	protected function validateChildComponent(IComponent $child): void
 	{
+		if (!$this->directLoadState) {
+			return;
+		}
+		
 		if ($child instanceof Datalist) {
 			$child->monitor(Presenter::class, function (Presenter $presenter) use ($child): void {
 				$child->loadState($this->getParameters());

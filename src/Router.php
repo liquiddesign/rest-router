@@ -17,8 +17,6 @@ class Router implements \Nette\Routing\Router
 	
 	private const DEFAULT_ACTION = 'default';
 	
-	private const OPTIONS_ACTION = 'checkRequest';
-	
 	private const ACTION_KEY = 'action';
 	
 	private const SUBACTION_KEY = 'subAction';
@@ -61,8 +59,8 @@ class Router implements \Nette\Routing\Router
 		$versions = \implode('|', \range(1, $this->currentVersion));
 		
 		$routes = [
-			new Nette\Application\Routers\Route("api/v<version=1 $versions>/<presenter $noRestfullPresenters>/<action>", ['module' => $this->module]),
-			new Nette\Application\Routers\Route("api/v<version=1 $versions>/<presenter>[/<id>][/<subAction>][/<subId>]", ['module' => $this->module]),
+			new Nette\Application\Routers\Route("api/[v<version=1 $versions>/]<presenter $noRestfullPresenters>/<action>", ['module' => $this->module]),
+			new Nette\Application\Routers\Route("api/[v<version=1 $versions>/]<presenter>[/<id>][/<subAction>][/<subId>]", ['module' => $this->module]),
 		];
 		
 		foreach ($routes as $route) {
@@ -87,10 +85,6 @@ class Router implements \Nette\Routing\Router
 				$matched[self::ACTION_KEY] = $this->mapAction($httpRequest->getMethod()) . (isset($matched[self::SUBACTION_KEY]) && $matched['subAction'] ? \ucfirst($matched['subAction']) : '');
 			} else {
 				$matched[self::ACTION_KEY] = $this->mapAction($httpRequest->getMethod()) . \ucfirst($matched[self::ACTION_KEY]);
-			}
-			
-			if ($httpRequest->getMethod() === 'OPTIONS') {
-				$matched[self::ACTION_KEY] = self::OPTIONS_ACTION;
 			}
 			
 			if (isset($matched[self::ID_KEY]) && \is_string($matched[self::ID_KEY])) {
