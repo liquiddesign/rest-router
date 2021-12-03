@@ -15,7 +15,7 @@ class Router implements \Nette\Routing\Router
 		'DELETE' => 'delete',
 	];
 	
-	private const DEFAULT_ACTION = 'default';
+	private const DEFAULT_ACTION = 'fallback';
 	
 	private const ACTION_KEY = 'action';
 	

@@ -27,7 +27,7 @@ abstract class Presenter extends Component implements IPresenter
 	/**
 	 * Called on default
 	 */
-	public function actionDefault(): OkResponse
+	public function actionFallback(): OkResponse
 	{
 		if ($this->httpRequest->getMethod() === 'OPTIONS') {
 			return new OkResponse('');
