@@ -1,6 +1,6 @@
 {
 	"name": "liquiddesign/rest-router",
-	"description": "Nette router, presenter a responses pro REST API",
+	"description": "Jednoduchý Nette router a presenter pro REST API",
 	"license": "MIT",
 	"autoload": {
 		"psr-4": {"REST\\": "src/"},
