@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace REST\Responses;
 
-use Grid\Datalist;
+use Datalist\Datalist;
 
 class ListResponse extends JsonResponse
 {

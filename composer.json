@@ -13,6 +13,7 @@
 		"nette/http": "^3.0",
 		"nette/application": "^3.0",
 		"nette/security": "^3.0",
+		"liquiddesign/datalist": "@dev",
 		"ext-json": "*"
 	},
 	"require-dev": 
@@ -20,8 +21,6 @@
 		"nette/tester":"*",
 		"composer/composer": "*",
 		"liquiddesign/codestyle": "@dev",
-		"liquiddesign/migrator": "@dev",
-		"liquiddesign/grid": "@dev",
 		"phpstan/phpstan": "*",
 		"tracy/tracy":"*"
 	},

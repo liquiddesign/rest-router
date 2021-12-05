@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace REST;
 
-use Grid\Datalist;
+use Datalist\Datalist;
 use Nette\Application\IPresenter;
 use Nette\Application\Response;
 use Nette\Application\UI\Component;
