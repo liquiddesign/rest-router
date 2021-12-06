@@ -42,13 +42,12 @@ jobs:
     - name: Run phpcs
       run: composer phpcs
 
-
     - name: Slack notification
       if: failure()
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_USERNAME: ThisIsMyUsername
-        SLACK_AVATAR: https://icons.iconarchive.com/icons/diversity-avatars/avatars/512/robot-02-icon.png # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
+        SLACK_USERNAME: GitHub Action
+        SLACK_AVATAR: sender
       uses: Ilshidur/action-slack@2.0.2
       with:
-        args: 'A new commit has been pushed.' # Optional
+        args: 'Error when Rest-router pushed.'
