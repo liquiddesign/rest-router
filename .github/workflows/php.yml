@@ -22,6 +22,11 @@ jobs:
         sendgrid-token: ${{ secrets.SENGRID_TOKEN }}
         mail: 'o.pospisilik@gmail.com'
 
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
     - uses: actions/checkout@v2
 
     - name: Validate composer.json and composer.lock
