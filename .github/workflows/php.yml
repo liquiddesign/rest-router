@@ -16,15 +16,14 @@ jobs:
       run: |
         git config --global core.autocrlf true
 
-    - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
+    - name: Slack notification
       env:
-        SLACK_COLOR: ${{ job.status }}
-        SLACK_ICON: https://github.com/rtCamp.png?size=48
-        SLACK_MESSAGE: 'Post Content :rocket:'
-        SLACK_TITLE: Post Title
-        SLACK_USERNAME: rtCamp
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_USERNAME: ThisIsMyUsername
+        SLACK_AVATAR: repository # Optional. can be (repository, sender, an URL) (defaults to webhook app avatar)
+      uses: Ilshidur/action-slack@2.0.2
+      with:
+        args: 'A new commit has been pushed.' # Optional
 
     - name: Report Status
       if: always()
