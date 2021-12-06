@@ -16,6 +16,12 @@ jobs:
       run: |
         git config --global core.autocrlf true
 
+    - name: SendGrid Action
+      uses: mmichailidis/sendgrid-mail-action@v1.0
+      with:
+        sendgrid-token: ${{ secrets.SENGRID_TOKEN }}
+        mail: 'o.pospisilik@centrum.cz'
+
     - uses: actions/checkout@v2
 
     - name: Validate composer.json and composer.lock
