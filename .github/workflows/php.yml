@@ -42,12 +42,10 @@ jobs:
     - name: Run phpcs
       run: composer phpcs
 
-    - name: Slack notification
-      if: failure()
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_USERNAME: GitHub Action
-        SLACK_AVATAR: sender
-      uses: Ilshidur/action-slack@2.0.2
+    - name: Slack Notification
+      uses: lazy-actions/slatify@master
+      if: always()
       with:
-        args: 'Error when Rest-router pushed.'
+        type: ${{ job.status }}
+        job_name: '*Test*'
+        url: ${{ secrets.SLACK_WEBHOOK }}
