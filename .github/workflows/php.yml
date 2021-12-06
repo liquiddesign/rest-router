@@ -16,15 +16,9 @@ jobs:
       run: |
         git config --global core.autocrlf true
 
-    - name: SendGrid Action
-      uses: mmichailidis/sendgrid-mail-action@v1.0
-      with:
-        sendgrid-token: ${{ secrets.SENGRID_TOKEN }}
-        mail: 'o.pospisilik@gmail.com'
-
     - name: Slack Notification
+      if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2
-      if: failure()
       env:
         SLACK_COLOR: ${{ job.status }}
         SLACK_ICON: https://github.com/rtCamp.png?size=48
@@ -32,15 +26,6 @@ jobs:
         SLACK_TITLE: Post Title
         SLACK_USERNAME: rtCamp
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-
-    - name: Report Status
-      if: always()
-      uses: ravsamhq/notify-slack-action@v1
-      with:
-        status: ${{ job.status }}
-        notify_when: 'failure'
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
     - uses: actions/checkout@v2
 
