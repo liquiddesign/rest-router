@@ -42,10 +42,11 @@ jobs:
     - name: Run phpcs
       run: composer phpcs
 
-    - name: Slack Notification
-      uses: lazy-actions/slatify@master
-      if: always()
+
+    - uses: 8398a7/action-slack@v3
       with:
-        type: ${{ job.status }}
-        job_name: '*Test*'
-        url: ${{ secrets.SLACK_WEBHOOK }}
+        status: ${{ job.status }}
+        fields: repo,message,author
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
+      if: always() # Pick up events even if the job fails or is canceled.
