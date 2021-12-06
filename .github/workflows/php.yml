@@ -14,7 +14,7 @@ jobs:
     steps:
     - name: CRLF
       run: |
-        git config --global core.eol CRLF
+        git config --global core.autocrlf true
 
     - uses: actions/checkout@v2
 
