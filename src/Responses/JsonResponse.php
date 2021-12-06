@@ -28,9 +28,5 @@ abstract class JsonResponse implements \Nette\Application\Response
 		
 		$httpResponse->setContentType(self::CONTENT_TYPE, 'utf-8');
 		echo \Nette\Utils\Json::encode($this->payload);
-	
 	}
 }
-
-
-

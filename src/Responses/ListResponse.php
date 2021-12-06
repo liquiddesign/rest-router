@@ -15,6 +15,6 @@ class ListResponse extends JsonResponse
 			'totalItemCount' => $datalist->getPaginator()->getItemCount(),
 		];
 		
-		parent::__construct($payload);
+		parent::__construct((string) $payload);
 	}
 }
