@@ -19,6 +19,8 @@ abstract class JsonResponse implements \Nette\Application\Response
 		$this->payload = $payload;
 	}
 	
+	
+	
 	/**
 	 * Sends response to output.
 	 */

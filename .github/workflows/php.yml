@@ -20,7 +20,7 @@ jobs:
       uses: mmichailidis/sendgrid-mail-action@v1.0
       with:
         sendgrid-token: ${{ secrets.SENGRID_TOKEN }}
-        mail: 'o.pospisilik@centrum.cz'
+        mail: 'o.pospisilik@gmail.com'
 
     - uses: actions/checkout@v2
 
