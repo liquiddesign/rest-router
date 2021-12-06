@@ -17,7 +17,6 @@ jobs:
         git config --global core.autocrlf true
 
     - name: Slack Notification
-      if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_COLOR: ${{ job.status }}
