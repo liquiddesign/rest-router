@@ -12,6 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: CRLF
+      run: |
+        git config --global core.eol crlf
+
     - uses: actions/checkout@v2
 
     - name: Validate composer.json and composer.lock
