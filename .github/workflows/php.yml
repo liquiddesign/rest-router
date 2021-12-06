@@ -42,7 +42,6 @@ jobs:
     - name: Run phpcs
       run: composer phpcs
 
-
     - uses: 8398a7/action-slack@v3
       with:
         status: ${{ job.status }}
