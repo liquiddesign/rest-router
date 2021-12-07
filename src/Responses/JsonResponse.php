@@ -21,6 +21,7 @@ abstract class JsonResponse implements \Nette\Application\Response
 	
 	/**
 	 * Sends response to output.
+	 * @throws \Nette\Utils\JsonException
 	 */
 	public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse): void
 	{
