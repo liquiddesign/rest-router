@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace REST\Responses;
 
-abstract class JsonResponse implements \Nette\Application\Response
+class JsonResponse implements \Nette\Application\Response
 {
 	private const CONTENT_TYPE = 'application/json';
 	
