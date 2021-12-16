@@ -30,7 +30,7 @@ class Router implements \Nette\Routing\Router
 	/**
 	 * @var string[]
 	 */
-	private array $noRestfullPresenter;
+	private ?array $noRestfullPresenter;
 	
 	private int $currentVersion;
 	
@@ -41,7 +41,7 @@ class Router implements \Nette\Routing\Router
 	 * @param string $module
 	 * @param int $currentVersion
 	 */
-	public function __construct(array $noRestfullPresenter = [], string $module = 'Api', int $currentVersion = 1)
+	public function __construct(?array $noRestfullPresenter = [], string $module = 'Api', int $currentVersion = 1)
 	{
 		$this->noRestfullPresenter = $noRestfullPresenter;
 		$this->currentVersion = $currentVersion;
@@ -55,13 +55,17 @@ class Router implements \Nette\Routing\Router
 	 */
 	public function match(Nette\Http\IRequest $httpRequest): ?array
 	{
-		$noRestfullPresenters = \implode('|', $this->noRestfullPresenter);
+		
 		$versions = \implode('|', \range(1, $this->currentVersion));
 		
-		$routes = [
-			new Nette\Application\Routers\Route("api/[v<version=1 $versions>/]<presenter $noRestfullPresenters>/<action>", ['module' => $this->module]),
-			new Nette\Application\Routers\Route("api/[v<version=1 $versions>/]<presenter>[/<id>][/<subAction>][/<subId>]", ['module' => $this->module]),
-		];
+		$routes = [];
+		
+		if ($this->noRestfullPresenter === null || \count($this->noRestfullPresenter) > 0) {
+			$noRestfullPresenters = $this->noRestfullPresenter === null ? '' : \implode('|', $this->noRestfullPresenter);
+			$routes[] = new Nette\Application\Routers\Route("api/[v<version=1 $versions>/]<presenter $noRestfullPresenters>/<action>", ['module' => $this->module]);
+		}
+		
+		$routes[] = new Nette\Application\Routers\Route("api/[v<version=1 $versions>/]<presenter>[/<id>][/<subAction>][/<subId>]", ['module' => $this->module]);
 		
 		foreach ($routes as $route) {
 			$matched = $route->match($httpRequest);
@@ -108,6 +112,11 @@ class Router implements \Nette\Routing\Router
 		return null;
 	}
 	
+	public function isApiRequest(Nette\Application\Request $appRequest): bool
+	{
+		return (Nette\Application\Helpers::splitName($appRequest->getPresenterName())[0] ?? null) === $this->module;
+	}
+
 	private function mapAction(string $method): string
 	{
 		return self::ACTIONS[$method] ?? self::DEFAULT_ACTION;

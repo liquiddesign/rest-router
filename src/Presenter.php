@@ -135,6 +135,20 @@ abstract class Presenter extends Component implements IPresenter
 		});
 	}
 	
+	/**
+	 * @param mixed[] $parameteres
+	 */
+	protected function getEndpointUrl(array $parameteres = []): string
+	{
+		$url = $this->httpRequest->getUrl();
+
+		foreach ($parameteres as $name => $value) {
+			$url = $url->withQueryParameter($name, $value);
+		}
+		
+		return $url->getAbsoluteUrl();
+	}
+	
 	private function isMethodCallable(\ReflectionClass $rc, string $method, string $type, bool $throw = false): ?\ReflectionMethod
 	{
 		if (!$rc->hasMethod($method)) {
