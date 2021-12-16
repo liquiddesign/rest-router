@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace REST;
 
 use Datalist\Datalist;
+use Nette\Application\ApplicationException;
 use Nette\Application\IPresenter;
 use Nette\Application\Response;
 use Nette\Application\UI\Component;
 use Nette\ComponentModel\IComponent;
+use Nette\Http\IResponse;
 use Nette\NotImplementedException;
 use Nette\Schema\Elements\Structure;
 use Nette\Schema\Expect;
@@ -91,7 +93,7 @@ abstract class Presenter extends Component implements IPresenter
 				$type = $rp->getType();
 				
 				if (!$type) {
-					throw new \Nette\Application\BadRequestException("Body parameter of $actionMethod() has no type");
+					throw new ApplicationException("Body parameter of $actionMethod() has no type");
 				}
 				
 				$class = $type->getName();
@@ -101,7 +103,7 @@ abstract class Presenter extends Component implements IPresenter
 					$params[Router::BODY_KEY] = $processor->process(Expect::from($validator, $validator->getAdditionalValidation()), $params[Router::BODY_KEY]);
 				}
 			} catch (\ReflectionException $x) {
-				throw new \Nette\Application\BadRequestException("Body is not required for method $actionMethod()");
+				throw new \Nette\Application\BadRequestException("Body is not required for method $actionMethod()", IResponse::S400_BAD_REQUEST);
 			}
 		}
 
@@ -162,7 +164,7 @@ abstract class Presenter extends Component implements IPresenter
 		$rm = $rc->getMethod($method);
 		
 		if ($rm->isPrivate() || $rm->isAbstract() || $rm->isStatic()) {
-			throw new \Nette\InvalidStateException('Cannot call method ' . $method . '()');
+			throw new \Nette\Application\BadRequestException('Cannot call method ' . $method . '()');
 		}
 		
 		/** @var \ReflectionNamedType|null $returnType */

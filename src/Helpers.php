@@ -5,11 +5,16 @@ declare(strict_types=1);
 namespace REST;
 
 use Nette\Application\Request;
+use Nette\Utils\JsonException;
 
 class Helpers
 {
 	public static function getExceptionFromRequest(Request $request, string $module = 'Api'): ?\Throwable
 	{
+		if ($request->getParameter('exception') instanceof JsonException) {
+			return $request->getParameter('exception');
+		}
+		
 		if ($request->getParameter('request') instanceof Request) {
 			$moduleLink = $request->getParameter('request')->getPresenterName();
 			
