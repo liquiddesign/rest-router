@@ -38,10 +38,10 @@ class Router implements \Nette\Routing\Router
 	
 	/**
 	 * @param string $module
-	 * @param string[] $noRestfullPresenter
 	 * @param int $currentVersion
+	 * @param string[] $noRestfullPresenter
 	 */
-	public function __construct(string $module = 'Api', ?array $noRestfullPresenter = [], int $currentVersion = 1)
+	public function __construct(string $module = 'Api', int $currentVersion = 1, ?array $noRestfullPresenter = [])
 	{
 		$this->noRestfullPresenter = $noRestfullPresenter;
 		$this->currentVersion = $currentVersion;
