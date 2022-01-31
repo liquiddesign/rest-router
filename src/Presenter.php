@@ -10,8 +10,8 @@ use Nette\Application\IPresenter;
 use Nette\Application\Response;
 use Nette\Application\UI\Component;
 use Nette\ComponentModel\IComponent;
+use Nette\Http\IRequest;
 use Nette\Http\IResponse;
-use Nette\NotImplementedException;
 use Nette\Schema\Elements\Structure;
 use Nette\Schema\Expect;
 use Nette\Schema\Processor;
@@ -27,23 +27,15 @@ abstract class Presenter extends Component implements IPresenter
 	protected bool $directLoadState = true;
 	
 	/**
-	 * Called on default
-	 */
-	public function actionFallback(): OkResponse
-	{
-		if ($this->httpRequest->getMethod() === 'OPTIONS') {
-			return new OkResponse('Polo');
-		}
-		
-		throw new NotImplementedException('Method ' . $this->httpRequest->getMethod() . ' is not implemented.');
-	}
-	
-	/**
 	 * @throws \ReflectionException
 	 * @throws \Nette\Security\AuthenticationException
 	 */
 	public function run(\Nette\Application\Request $request): Response
 	{
+		if ($request->getMethod() === IRequest::OPTIONS) {
+			return new OkResponse('Polo');
+		}
+		
 		$this->loadState($request->getParameters());
 		
 		return $this->call($request->getParameter('action') ?? 'default', $request->getParameters());
@@ -61,7 +53,7 @@ abstract class Presenter extends Component implements IPresenter
 		$processor = new Processor();
 		$method = \ucfirst($method);
 		
-		$globalAuthorizeMethod = "authorize";
+		$globalAuthorizeMethod = 'authorize';
 		$authorizeMethod = "authorize$method";
 		$validateMethod = "validate$method";
 		$actionMethod = "action$method";

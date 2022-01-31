@@ -9,17 +9,17 @@ class Router implements \Nette\Routing\Router
 	public const BODY_KEY = 'body';
 	
 	private const ACTIONS = [
-		'GET' => 'read',
-		'POST' => 'create',
-		'PATCH' => 'update',
-		'DELETE' => 'delete',
+		Nette\Http\IRequest::GET => 'read',
+		Nette\Http\IRequest::POST => 'create',
+		Nette\Http\IRequest::PATCH => 'update',
+		Nette\Http\IRequest::DELETE => 'delete',
 	];
 	
 	private const DEFAULT_ACTION = 'fallback';
 	
 	private const ACTION_KEY = 'action';
 	
-	private const SUBACTION_KEY = 'subAction';
+	private const SUB_ACTION_KEY = 'subAction';
 	
 	private const OPERATION_KEY = 'op';
 	
@@ -86,7 +86,7 @@ class Router implements \Nette\Routing\Router
 			}
 			
 			if (!isset($matched[self::ACTION_KEY])) {
-				$matched[self::ACTION_KEY] = $this->mapAction($httpRequest->getMethod()) . (isset($matched[self::SUBACTION_KEY]) && $matched['subAction'] ? \ucfirst($matched['subAction']) : '');
+				$matched[self::ACTION_KEY] = $this->mapAction($httpRequest->getMethod()) . (isset($matched[self::SUB_ACTION_KEY]) && $matched['subAction'] ? \ucfirst($matched['subAction']) : '');
 			} else {
 				$matched[self::ACTION_KEY] = $this->mapAction($httpRequest->getMethod()) . \ucfirst($matched[self::ACTION_KEY]);
 			}
