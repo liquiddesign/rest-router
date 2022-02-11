@@ -28,7 +28,7 @@ class Router implements \Nette\Routing\Router
 	private const IDS_KEY = 'ids';
 	
 	/**
-	 * @var string[]
+	 * @var array<int, string>
 	 */
 	private ?array $noRestfullPresenter;
 	
@@ -39,7 +39,7 @@ class Router implements \Nette\Routing\Router
 	/**
 	 * @param string $module
 	 * @param int $currentVersion
-	 * @param string[] $noRestfullPresenter
+	 * @param array<string> $noRestfullPresenter
 	 */
 	public function __construct(string $module = 'Api', int $currentVersion = 1, ?array $noRestfullPresenter = [])
 	{
@@ -50,7 +50,7 @@ class Router implements \Nette\Routing\Router
 	
 	/**
 	 * @param \Nette\Http\IRequest $httpRequest
-	 * @return mixed[]|null
+	 * @return array<mixed>|null
 	 * @throws \Nette\Utils\JsonException
 	 */
 	public function match(Nette\Http\IRequest $httpRequest): ?array
@@ -102,7 +102,7 @@ class Router implements \Nette\Routing\Router
 	}
 	
 	/**
-	 * @param mixed[] $params
+	 * @param array<string|int, mixed> $params
 	 * @param \Nette\Http\UrlScript $refUrl
 	 */
 	public function constructUrl(array $params, Nette\Http\UrlScript $refUrl): ?string

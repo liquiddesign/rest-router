@@ -18,7 +18,7 @@ class InputBody extends \stdClass
 	}
 	
 	/**
-	 * @return mixed[]
+	 * @return array<int|string, mixed>
 	 */
 	public function getAdditionalValidation(): array
 	{

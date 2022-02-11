@@ -43,7 +43,7 @@ abstract class Presenter extends Component implements IPresenter
 	
 	/**
 	 * @param string $method
-	 * @param mixed[] $params
+	 * @param array<mixed> $params
 	 * @throws \ReflectionException
 	 * @throws \Nette\Security\AuthenticationException
 	 */
@@ -130,7 +130,7 @@ abstract class Presenter extends Component implements IPresenter
 	}
 	
 	/**
-	 * @param mixed[] $parameteres
+	 * @param array<mixed> $parameteres
 	 */
 	protected function getEndpointUrl(array $parameteres = []): string
 	{
