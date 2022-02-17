@@ -3,6 +3,7 @@
 namespace REST;
 
 use Nette;
+use Nette\Utils\Strings;
 
 class Router implements \Nette\Routing\Router
 {
@@ -84,12 +85,10 @@ class Router implements \Nette\Routing\Router
 				$matched[self::ACTION_KEY] = Nette\Utils\Arrays::pick($matched, self::OPERATION_KEY);
 				unset($matched[self::BODY_KEY]);
 			}
-			
-			if (!isset($matched[self::ACTION_KEY])) {
-				$matched[self::ACTION_KEY] = $this->mapAction($httpRequest->getMethod()) . (isset($matched[self::SUB_ACTION_KEY]) && $matched['subAction'] ? \ucfirst($matched['subAction']) : '');
-			} else {
-				$matched[self::ACTION_KEY] = $this->mapAction($httpRequest->getMethod()) . \ucfirst($matched[self::ACTION_KEY]);
-			}
+	
+			$matched[self::ACTION_KEY] = !isset($matched[self::ACTION_KEY]) ?
+				$this->mapAction($httpRequest->getMethod()) . Strings::firstUpper($matched[self::SUB_ACTION_KEY] ?? '') :
+				$this->mapAction($httpRequest->getMethod()) . Strings::firstUpper($matched[self::ACTION_KEY]);
 			
 			if (isset($matched[self::ID_KEY]) && \is_string($matched[self::ID_KEY])) {
 				$matched[self::IDS_KEY] = [$matched[self::ID_KEY]];

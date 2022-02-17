@@ -16,6 +16,7 @@ use Nette\Schema\Elements\Structure;
 use Nette\Schema\Expect;
 use Nette\Schema\Processor;
 use Nette\Security\AuthenticationException;
+use Nette\Utils\Strings;
 use REST\Responses\JsonResponse;
 use REST\Responses\OkResponse;
 
@@ -51,7 +52,7 @@ abstract class Presenter extends Component implements IPresenter
 	{
 		$rc = $this->getReflection();
 		$processor = new Processor();
-		$method = \ucfirst($method);
+		$method = Strings::firstUpper($method);
 		
 		$globalAuthorizeMethod = 'authorize';
 		$authorizeMethod = "authorize$method";
