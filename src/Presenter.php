@@ -25,7 +25,7 @@ abstract class Presenter extends Component implements IPresenter
 	/** @inject */
 	public \Nette\Http\Request $httpRequest;
 	
-	public ?string $lang;
+	public ?string $lang = null;
 
 	protected bool $directLoadState = true;
 	
