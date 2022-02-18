@@ -25,6 +25,8 @@ abstract class Presenter extends Component implements IPresenter
 	/** @inject */
 	public \Nette\Http\Request $httpRequest;
 	
+	public ?string $lang;
+
 	protected bool $directLoadState = true;
 	
 	/**
@@ -36,6 +38,8 @@ abstract class Presenter extends Component implements IPresenter
 		if ($request->getMethod() === IRequest::OPTIONS) {
 			return new OkResponse('Polo');
 		}
+		
+		$this->lang = $this->httpRequest->getHeader('Content-Language');
 		
 		$this->loadState($request->getParameters());
 		
