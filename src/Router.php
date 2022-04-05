@@ -85,8 +85,8 @@ class Router implements \Nette\Routing\Router
 				
 				$matched[self::BODY_KEY] = new InputBody($jsonBody);
 			}
-			
-			if ($httpRequest->getMethod() === 'POST' && isset($jsonBody) && isset($operation)) {
+
+			if ($httpRequest->getMethod() === Nette\Http\IRequest::POST && isset($jsonBody) && isset($operation)) {
 				$matched += (array) $jsonBody;
 				$matched[self::ACTION_KEY] = $operation;
 			} else {
