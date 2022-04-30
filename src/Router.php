@@ -28,6 +28,8 @@ class Router implements \Nette\Routing\Router
 	
 	private const IDS_KEY = 'ids';
 	
+	private const SINGLE_ACTION_PREFIX = 'One';
+	
 	/**
 	 * @var array<int, string>
 	 */
@@ -56,7 +58,6 @@ class Router implements \Nette\Routing\Router
 	 */
 	public function match(Nette\Http\IRequest $httpRequest): ?array
 	{
-		
 		$versions = \implode('|', \range(1, $this->currentVersion));
 		
 		$routes = [];
@@ -83,9 +84,11 @@ class Router implements \Nette\Routing\Router
 					unset($jsonBody->{self::OPERATION_KEY});
 				}
 				
-				$matched[self::BODY_KEY] = new InputBody($jsonBody);
+				if ((array) $jsonBody) {
+					$matched[self::BODY_KEY] = new InputBody($jsonBody);
+				}
 			}
-
+			
 			if ($httpRequest->getMethod() === Nette\Http\IRequest::POST && isset($jsonBody) && isset($operation)) {
 				$matched += (array) $jsonBody;
 				$matched[self::ACTION_KEY] = $operation;
@@ -96,6 +99,10 @@ class Router implements \Nette\Routing\Router
 			}
 			
 			if (isset($matched[self::ID_KEY]) && \is_string($matched[self::ID_KEY])) {
+				if ($httpRequest->getMethod() === Nette\Http\IRequest::GET) {
+					$matched[self::ACTION_KEY] .= self::SINGLE_ACTION_PREFIX;
+				}
+				
 				$matched[self::IDS_KEY] = [$matched[self::ID_KEY]];
 			}
 			
