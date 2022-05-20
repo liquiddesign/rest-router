@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace REST\Responses;
 
+use REST\Exception;
+
 class ErrorResponse extends JsonResponse
 {
-	public function __construct(\Throwable $exception)
+	public function __construct(\Throwable $exception, bool $debugMode)
 	{
+		$showError = $debugMode || $exception instanceof Exception;
+		
 		$payload = [
-			'error' => $exception->getMessage(),
-			'code' => $exception->getCode(),
-			'type' => \get_class($exception),
+			'error' => $showError ? $exception->getMessage() : 'unspecified server error',
+			'code' => $showError ? $exception->getCode() : 500,
+			'type' => $showError ? \get_class($exception) : 'internal',
 		];
 		
 		parent::__construct($payload);
