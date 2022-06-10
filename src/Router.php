@@ -98,7 +98,7 @@ class Router implements \Nette\Routing\Router
 					$this->mapAction($httpRequest->getMethod()) . Strings::firstUpper($matched[self::ACTION_KEY]);
 			}
 			
-			if (isset($matched[self::ID_KEY]) && \is_string($matched[self::ID_KEY])) {
+			if (isset($matched[self::ID_KEY]) && \is_string($matched[self::ID_KEY]) && !isset($matched[self::SUB_ACTION_KEY])) {
 				if ($httpRequest->getMethod() === Nette\Http\IRequest::GET) {
 					$matched[self::ACTION_KEY] .= self::SINGLE_ACTION_PREFIX;
 				}
