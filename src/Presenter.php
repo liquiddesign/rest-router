@@ -167,7 +167,7 @@ abstract class Presenter extends Component implements IPresenter
 		/** @var \ReflectionNamedType|null $returnType */
 		$returnType = $rm->getReturnType();
 		
-		if ($returnType !== null && ($returnType->getName() !== $type && !\is_subclass_of($returnType->getName(), $type))) {
+		if ($returnType !== null && $returnType->getName() !== 'void' && ($returnType->getName() !== $type && !\is_subclass_of($returnType->getName(), $type))) {
 			throw new \Nette\InvalidStateException('Method ' . $method . '() has invalid type. Correct type is ' . $type);
 		}
 		
