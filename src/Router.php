@@ -76,7 +76,7 @@ class Router implements \Nette\Routing\Router
 				continue;
 			}
 			
-			if ($httpRequest->getRawBody()) {
+			if ($httpRequest->getRawBody() && $httpRequest->getHeader('Content-Type') === 'application/json') {
 				$jsonBody = Nette\Utils\Json::decode($httpRequest->getRawBody());
 				
 				if (isset($jsonBody->{self::OPERATION_KEY})) {
@@ -89,7 +89,7 @@ class Router implements \Nette\Routing\Router
 				}
 			}
 			
-			if ($httpRequest->getMethod() === Nette\Http\IRequest::POST && isset($jsonBody) && isset($operation)) {
+			if ($httpRequest->getMethod() === Nette\Http\IRequest::Post && isset($jsonBody) && isset($operation)) {
 				$matched += (array) $jsonBody;
 				$matched[self::ACTION_KEY] = $operation;
 			} else {
@@ -99,7 +99,7 @@ class Router implements \Nette\Routing\Router
 			}
 			
 			if (isset($matched[self::ID_KEY]) && \is_string($matched[self::ID_KEY]) && !isset($matched[self::SUB_ACTION_KEY])) {
-				if ($httpRequest->getMethod() === Nette\Http\IRequest::GET) {
+				if ($httpRequest->getMethod() === Nette\Http\IRequest::Get) {
 					$matched[self::ACTION_KEY] .= self::SINGLE_ACTION_PREFIX;
 				}
 				
