@@ -2,13 +2,15 @@
 	"name": "liquiddesign/rest-router",
 	"description": "⍦ Jednoduchý Nette router a presenter pro REST API",
 	"license": "MIT",
+	"prefer-stable": true,
+	"minimum-stability": "dev",
 	"autoload": {
 		"psr-4": {"REST\\": "src/"},
 		"classmap": []
 	},
 	"require" :
 	{
-		"php":">=7.4",
+		"php":">=8.0",
 		"nette/routing": "^3.0",
 		"nette/http": "^3.0",
 		"nette/application": "^3.0",
@@ -20,7 +22,7 @@
 	{
 		"nette/tester":"^2.0",
 		"composer/composer": "^2.0",
-		"liquiddesign/codestyle": "^2.0",
+		"liquiddesign/codestyle": "^3.0",
 		"phpstan/phpstan": "^1.0",
 		"tracy/tracy":"^2.0",
 		"phpcompatibility/php-compatibility": "^9.3"
@@ -29,8 +31,13 @@
 		"phpstan": "phpstan analyse --memory-limit 1G -c phpstan.neon",
 		"phpcs": "phpcs --standard=ruleset.xml --ignore=assets src",
 		"phpcsfix": "phpcbf --standard=ruleset.xml --ignore=assets src",
-		"phpcheck7": "phpcs -p ./src --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 7.4",
-		"phpcheck8": "phpcs -p ./src --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.1"
+		"phpcheck8": "phpcs -p ./src --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.1",
+		"check-commit": "@php ./vendor/liquiddesign/codestyle/src/scripts/check-last-commit.php",
+		"changelog": "conventional-changelog",
+		"release": "@changelog --commit",
+		"release:patch": "@changelog --patch --commit",
+		"release:minor": "@changelog --minor --commit",
+		"release:major": "@changelog --major --commit"
 	},
 	"config": {
 		"allow-plugins": {

@@ -16,7 +16,7 @@ class ErrorResponse extends JsonResponse
 		$payload = [
 			'error' => $showError ? $exception->getMessage() : 'unspecified server error',
 			'code' => $showError ? $exception->getCode() : 500,
-			'type' => $showError ? \get_class($exception) : 'internal',
+			'type' => $showError ? $exception::class : 'internal',
 		];
 		
 		parent::__construct($payload);
