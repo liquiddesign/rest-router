@@ -85,7 +85,7 @@ class Router implements \Nette\Routing\Router
 				}
 				
 				if ((array) $jsonBody) {
-					$matched[self::BODY_KEY] = new InputBody($jsonBody);
+					$matched[self::BODY_KEY] = InputBody::fromJSON($jsonBody);
 				}
 			}
 			
