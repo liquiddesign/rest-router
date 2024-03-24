@@ -76,7 +76,7 @@ class Router implements \Nette\Routing\Router
 				continue;
 			}
 
-			if ($matched[self::ID_KEY] === null && $httpRequest->getQuery('id')) {
+			if (\array_key_exists(self::ID_KEY, $matched) && $matched[self::ID_KEY] === null && $httpRequest->getQuery('id')) {
 				$matched[self::ID_KEY] = $httpRequest->getQuery('id');
 			}
 
