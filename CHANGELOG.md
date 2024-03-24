@@ -4,6 +4,15 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [2.2.0](https://github.com/liquiddesign/rest-router/compare/v2.1.0...v2.2.0) (2024-03-24)
+
+### Features
+
+* Enable to call subaction with multiple ids ([d4b09c](https://github.com/liquiddesign/rest-router/commit/d4b09c0618bf872ff7432f154143672dcbed6fe0))
+
+
+---
+
 ## [2.1.0](https://github.com/liquiddesign/rest-router/compare/v2.0.3...v2.1.0) (2024-03-23)
 
 ### Features
