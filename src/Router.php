@@ -76,6 +76,10 @@ class Router implements \Nette\Routing\Router
 				continue;
 			}
 
+			if ($matched[self::ID_KEY] === null && $httpRequest->getQuery('id')) {
+				$matched[self::ID_KEY] = $httpRequest->getQuery('id');
+			}
+
 			// for api/presenter/subaction?ids='asdasd'
 			if (isset($matched[self::IDS_KEY], $matched[self::ID_KEY]) && !isset($matched[self::SUB_ACTION_KEY])) {
 				$matched[self::SUB_ACTION_KEY] = $matched[self::ID_KEY];
